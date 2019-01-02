@@ -24,30 +24,33 @@ $(document).ready(function() {
             $("#password-err").show();
             return;
         }
-        // 调用ajax向后端发送注册请求
-        var req_data = {
+        // 将表单的数据存放到对象data中
+        var data = {
             mobile: mobile,
-            password: passwd,
-        }
-        var req_json = JSON.stringify(req_data)
+            password: passwd
+        };
+        // 将data转为json字符串
+        var jsonData = JSON.stringify(data);
         $.ajax({
-            url: "/api/v1.0/sessions",
-            type: "post",
-            data: req_json,
+            url:"/api/v1.0/sessions",
+            type:"post",
+            data: jsonData,
             contentType: "application/json",
             dataType: "json",
-            headers: {
-                "X-CSRFToken": getCookie("csrf_token")
-            },// 请求头,将csrf_token值放到请求头中，方便后端csrf进行验证
-            success: function (resp) {
-                if (resp.errno == "0") {
-                    location.href = "/index.html"
-                } else {
-                    // 其他错误信息,在页面中展示
-                    $("#password-err span").html(resp.errmsg)
-                    $("#password-err").show()
+            headers:{
+                "X-CSRFToken":getCookie("csrf_token")
+            },
+            success: function (data) {
+                if (data.errno == "0") {
+                    // 登录成功，跳转到主页
+                    location.href = "/";
+                }
+                else {
+                    // 其他错误信息，在页面中展示
+                    $("#password-err span").html(data.errmsg);
+                    $("#password-err").show();
                 }
             }
-        })
+        });
     });
 })

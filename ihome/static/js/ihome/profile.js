@@ -11,6 +11,7 @@ function getCookie(name) {
     return r ? r[1] : undefined;
 }
 
+
 $(document).ready(function () {
     $("#form-avatar").submit(function (e) {
         // 阻止表单的默认行为
@@ -28,11 +29,58 @@ $(document).ready(function () {
                     // 上传成功
                     var avatarUrl = resp.data.avatar_url;
                     $("#user-avatar").attr("src", avatarUrl);
+                } else if (resp.errno == "4101") {
+                    location.href = "/login.html";
                 } else {
                     alert(resp.errmsg);
                 }
             }
         })
-    })
+    });
 
+    // 在页面加载是向后端查询用户的信息
+    $.get("/api/v1.0/user", function(resp){
+        // 用户未登录
+        if ("4101" == resp.errno) {
+            location.href = "/login.html";
+        }
+        // 查询到了用户的信息
+        else if ("0" == resp.errno) {
+            $("#user-name").val(resp.data.name);
+            if (resp.data.avatar) {
+                $("#user-avatar").attr("src", resp.data.avatar);
+            }
+        }
+    }, "json");
+
+     $("#form-name").submit(function(e){
+        e.preventDefault();
+        // 获取参数
+        var name = $("#user-name").val();
+
+        if (!name) {
+            alert("请填写用户名！");
+            return;
+        }
+        $.ajax({
+            url:"/api/v1.0/users/name",
+            type:"PUT",
+            data: JSON.stringify({name: name}),
+            contentType: "application/json",
+            dataType: "json",
+            headers:{
+                "X-CSRFTOKEN":getCookie("csrf_token")
+            },
+            success: function (data) {
+                if ("0" == data.errno) {
+                    $(".error-msg").hide();
+                    showSuccessMsg();
+                } else if ("4001" == data.errno) {
+                    $(".error-msg").show();
+                } else if ("4101" == data.errno) {
+                    location.href = "/login.html";
+                }
+            }
+        });
+    })
 })

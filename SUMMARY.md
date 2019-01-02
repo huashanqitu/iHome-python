@@ -22,6 +22,7 @@
     * [七牛上传图片](Article/QiNiuUpload.md)
     * [图片表单使用说明]()
 * [9.城区信息]()
+    * [缓存机制](Article/cacheInte.md)
 * [10.发布房源]()
 * [11.celery]()
 * [12.房屋管理]()

@@ -5,8 +5,8 @@ from qiniu import Auth, put_data, etag
 import qiniu.config
 
 # 需要填写你的 Access Key 和 Secret Key
-access_key = 'Access_Key'
-secret_key = 'Secret_Key'
+access_key = 'tdJY7f0_tjznByMKRnhyZnqgneJIpSZU7Bjn34XN'
+secret_key = '0v79t6oGJ6etVx-Tozf6UwjIjYB9uwf5puNKAKJW'
 
 def storage(file_data):
     """
@@ -18,7 +18,7 @@ def storage(file_data):
     q = Auth(access_key, secret_key)
 
     # 要上传的空间
-    bucket_name = 'Bucket_Name'
+    bucket_name = 'ihome-python04'
 
     # 上传到七牛后保存的文件名
     # key = 'my-python-logo.png'
@@ -31,9 +31,9 @@ def storage(file_data):
 
     ret, info = put_data(token, None, file_data)
 
-    # print(info)
-    # print("*" * 10)
-    # print(ret)
+    print(info)
+    print("*" * 10)
+    print(ret)
     if info.status_code == 200:
         # 表示上传成功, 返回文件名
         return ret.get("key")
@@ -44,4 +44,6 @@ def storage(file_data):
 
 
 if __name__ == '__main__':
-    storage()
+    with open("./git.jpg", "rb") as f:
+        file_data = f.read()
+        storage(file_data)

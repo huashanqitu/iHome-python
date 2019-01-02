@@ -1,3 +1,4 @@
+// js读取cookie的方法
 function getCookie(name) {
     var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
     return r ? r[1] : undefined;
@@ -20,11 +21,11 @@ function generateUUID() {
 }
 
 function generateImageCode() {
-    // 形成图片验证码的后端地址,设置到页面中，让浏览器请求验证码图片
-    // 1. 生成图片验证码编号-uuid通用唯一标识符
+    // 形成图片验证码的后端地址， 设置到页面中，让浏览请求验证码图片
+    // 1. 生成图片验证码编号
     imageCodeId = generateUUID();
     // 是指图片url
-    var url = "/api/v1.0/image_codes/" + imageCodeId
+    var url = "/api/v1.0/image_codes/" + imageCodeId;
     $(".image-code img").attr("src", url);
 }
 
@@ -96,10 +97,12 @@ $(document).ready(function() {
         $("#password2-err").hide();
     });
 
-    // 为表单的提交补充自定义的函数行为 提交事件
+
+    // 为表单的提交补充自定义的函数行为 （提交事件e）
     $(".form-register").submit(function(e){
-        // 阻止浏览器默认行为
+        // 阻止浏览器对于表单的默认自动提交行为
         e.preventDefault();
+
         var mobile = $("#mobile").val();
         var phoneCode = $("#phonecode").val();
         var passwd = $("#password").val();
@@ -130,9 +133,9 @@ $(document).ready(function() {
             mobile: mobile,
             sms_code: phoneCode,
             password: passwd,
-            password2: passwd2
-        }
-        var req_json = JSON.stringify(req_data)
+            password2: passwd2,
+        };
+        var req_json = JSON.stringify(req_data);
         $.ajax({
             url: "/api/v1.0/users",
             type: "post",
@@ -141,14 +144,16 @@ $(document).ready(function() {
             dataType: "json",
             headers: {
                 "X-CSRFToken": getCookie("csrf_token")
-            },// 请求头,将csrf_token值放到请求头中，方便后端csrf进行验证
+            }, // 请求头，将csrf_token值放到请求中，方便后端csrf进行验证
             success: function (resp) {
                 if (resp.errno == "0") {
-                    location.href = "/index.html"
+                    // 注册成功，跳转到主页
+                    location.href = "/index.html";
                 } else {
-                    alert(resp.errmsg)
+                    alert(resp.errmsg);
                 }
             }
         })
+
     });
 })
