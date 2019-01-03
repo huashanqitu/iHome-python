@@ -26,6 +26,7 @@
     * [前端模板](https://aui.github.io/art-template/zh-cn/index.html)
 * [10.发布房源]()
 * [11.celery]()
+    * [celery模型说明]()
 * [12.房屋管理]()
 * [13.房屋列表]()
 * [14.订单]()
