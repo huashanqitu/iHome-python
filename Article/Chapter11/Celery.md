@@ -18,6 +18,8 @@
         - 存放结果数据
         - 任意存放方式
     - 图示  
-    ![celery简易模型](images/celery的结果说明.png)
+    ![celery简易模型](../images/celery的结果说明.png)
+- celery
+    - celery -A ihome.tasks.task_sms worker -l info
     
   

@@ -1,6 +1,6 @@
 # 图片验证流程图
 - 图示
-    - ![图片验证流程图](images/图片验证码流程图.png)
+    - ![图片验证流程图](../images/图片验证码流程图.png)
 - 逻辑代码-地址：ihome/api_1_0/verify_code.py
     ```python
     # coding:utf-8

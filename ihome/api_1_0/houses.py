@@ -401,6 +401,7 @@ def get_house_list():
 
     # 区域条件
     if area_id:
+        # House.area_id.__eq__(1)
         filter_params.append(House.area_id == area_id)
 
     # 查询数据库
@@ -457,3 +458,4 @@ def get_house_list():
             current_app.logger.error(e)
 
     return resp_json, 200, {"Content-Type": "application/json"}
+
